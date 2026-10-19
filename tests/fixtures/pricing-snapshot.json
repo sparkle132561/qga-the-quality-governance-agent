@@ -1,0 +1,44 @@
+{
+  "checked_date": "2026-10-08",
+  "actual_bill_verified": false,
+  "notice": "公开单价用于估算，不是账号实际扣费证明。不同币种不得直接相加。",
+  "models": {
+    "agnes-2.5-flash": {
+      "currency": "USD",
+      "source": "https://www.agnes-ai.com/en/docs/pricing",
+      "unit": "million_tokens",
+      "current": {
+        "input": "0",
+        "cached_input": "0",
+        "output": "0"
+      },
+      "list": {
+        "input": "0.05",
+        "cached_input": "0.005",
+        "output": "0.15"
+      }
+    },
+    "BAAI/bge-m3": {
+      "currency": "CNY",
+      "source": "https://siliconflow.cn/pricing",
+      "unit": "published_free_model",
+      "current": {
+        "input": "0",
+        "cached_input": "0",
+        "output": "0"
+      },
+      "list": null
+    },
+    "BAAI/bge-reranker-v2-m3": {
+      "currency": "CNY",
+      "source": "https://siliconflow.cn/pricing",
+      "unit": "published_free_model",
+      "current": {
+        "input": "0",
+        "cached_input": "0",
+        "output": "0"
+      },
+      "list": null
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {"id":"cnca-c07-2024","title":"家用和类似用途设备认证实施规则 CNCA-C07-01:2024","url":"https://www.cnca.gov.cn/cms_files/filemanager/953091537/attach/20244/622c2806370142de8ddaa87d72bc0087.pdf","publisher":"国家认监委","source_kind":"official_rule","published_on":"2024-04-08","verified_on":"2026-10-03","license_status":"unverified","redistribution_allowed":false,"metadata_json":{"effective_from":"2024-07-01","location":{"page":1},"storage_policy":"仅保存元数据、必要摘要和链接，不打包全文"}},
+    {"id":"samr-kettle-2018","title":"上海凯膳怡贸易有限责任公司召回部分电热水壶","url":"https://www.samrdprc.org.cn/xfpzh/xfpzhgg/201808/t20180822_78634.html","publisher":"国家市场监督管理总局缺陷产品召回技术中心","source_kind":"official_event","published_on":"2018-08-20","verified_on":"2026-10-03","license_status":"unverified","redistribution_allowed":false,"metadata_json":{"storage_policy":"历史事件，仅最小字段与来源链接"}},
+    {"id":"demo-platform-policy","title":"项目自建模拟平台准入与整改要求","url":null,"publisher":"本项目模拟数据","source_kind":"demo_policy","published_on":"2025-01-01","verified_on":"2026-10-03","license_status":"project_generated","redistribution_allowed":true,"metadata_json":{"is_demo":true,"disclaimer":"用于演示，不是监管法规"}}
+  ],
+  "rules": [
+    {"id":"cnca-c07-2024","rule_key":"CNCA-C07-01","version":"2024","source_id":"cnca-c07-2024","category":"electric_kettle","effective_from":"2024-07-01","effective_until":null,"content":"官方认证规则参考：包括液体加热器类别；认证委托资料按认证实施细则确定，样品与实际产品需核对一致性。具体适用范围、标准版本和细则应查看原文。","requirements":{},"is_demo":false},
+    {"id":"demo-qualification-v1","rule_key":"DEMO-QUALIFICATION","version":"1","source_id":"demo-platform-policy","category":"electric_kettle","effective_from":"2025-01-01","effective_until":"2025-07-01","content":"模拟平台准入要求v1：提交证书和型号标签；核对证书编号、生产者、商品型号、有效期。缺少证书或型号须补件。此为项目演示规则。","requirements":{"documents":["certificate","label"],"fields":["model","certificate_number"]},"is_demo":true},
+    {"id":"demo-qualification-v2","rule_key":"DEMO-QUALIFICATION","version":"2","source_id":"demo-platform-policy","category":"electric_kettle","effective_from":"2025-07-01","effective_until":null,"content":"模拟平台准入要求v2：提交证书、型号标签与检测报告；核对型号、生产者和证书有效期，报告与标签信息冲突须人工复核。缺少必要资料须补件。此为项目演示规则。","requirements":{"documents":["certificate","label","test_report"],"fields":["model","certificate_number","power"]},"is_demo":true},
+    {"id":"demo-remediation-v1","rule_key":"DEMO-REMEDIATION","version":"1","source_id":"demo-platform-policy","category":"electric_kettle","effective_from":"2025-01-01","effective_until":null,"content":"模拟整改要求：说明涉及批次、提交整改措施和新证据。申诉需提供不在事件范围内的型号或生产日期依据。审核员确认后才可关闭工单。此为项目演示规则。","requirements":{"documents":["remediation_statement","remediation_evidence"]},"is_demo":true}
+  ],
+  "events": [
+    {"id":"public-kitchenaid-2018","source_id":"samr-kettle-2018","event_type":"recall","title":"KitchenAid部分电热水壶历史召回","scope_json":{"brand":"KitchenAid","models":["5KEK1722COB","5KEK1722CER"],"production_start":"2016-10-01","production_end":"2017-06-30","date_precision":"month","serial_scope_original":"YA643**** to YA724****","serial_filter_status":"requires_interpretation","defect_summary":"把手连接部位存在分离风险","scope_review_required":true},"is_demo":false},
+    {"id":"demo-recall-001","source_id":"demo-platform-policy","event_type":"recall","title":"模拟K170水壶质量事件","scope_json":{"brand":"演示品牌","models":["K170"],"production_start":"2025-01-01","production_end":"2025-04-30","date_precision":"day","defect_summary":"模拟把手松脱问题"},"is_demo":true}
+  ],
+  "suppliers":[{"id":"supplier-a","merchant_id":"merchant-a","name":"模拟供应商甲"},{"id":"supplier-b","merchant_id":"merchant-b","name":"模拟供应商乙"}],
+  "orders":[{"id":"demo-order-hit","product_id":"sku-hit","merchant_id":"merchant-a","quantity":2},{"id":"demo-order-date-out","product_id":"sku-date-out","merchant_id":"merchant-a","quantity":1},{"id":"demo-order-other","product_id":"sku-other-owner","merchant_id":"merchant-b","quantity":1}]
+}

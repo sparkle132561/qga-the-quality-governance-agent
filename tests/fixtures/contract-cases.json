@@ -1,0 +1,994 @@
+{
+  "schema_version": 1,
+  "dataset_version": "draft-v1",
+  "human_verified_count": 0,
+  "is_demo": true,
+  "notice": "40条研究者草案，未人工核验；答案文件不进入Agent提示词、索引或工具。当前是机制边界集，非30～45条人工Gold达标。",
+  "cases": [
+    {
+      "id": "draft-001",
+      "kind": "impact_scope",
+      "label": "确定命中",
+      "input": {
+        "scope": {
+          "brand": "演示品牌",
+          "models": [
+            "K170"
+          ],
+          "production_scope": "range",
+          "production_start": "2025-01-01",
+          "production_end": "2025-04-30",
+          "date_precision": "day"
+        },
+        "product": {
+          "brand": "演示品牌",
+          "model": "K170"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": "2025-03-01"
+        }
+      },
+      "expected": {
+        "status": "hit"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-002",
+      "kind": "impact_scope",
+      "label": "日期前界命中",
+      "input": {
+        "scope": {
+          "brand": "演示品牌",
+          "models": [
+            "K170"
+          ],
+          "production_scope": "range",
+          "production_start": "2025-01-01",
+          "production_end": "2025-04-30",
+          "date_precision": "day"
+        },
+        "product": {
+          "brand": "演示品牌",
+          "model": "K170"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": "2025-01-01"
+        }
+      },
+      "expected": {
+        "status": "hit"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-003",
+      "kind": "impact_scope",
+      "label": "日期后界命中",
+      "input": {
+        "scope": {
+          "brand": "演示品牌",
+          "models": [
+            "K170"
+          ],
+          "production_scope": "range",
+          "production_start": "2025-01-01",
+          "production_end": "2025-04-30",
+          "date_precision": "day"
+        },
+        "product": {
+          "brand": "演示品牌",
+          "model": "K170"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": "2025-04-30"
+        }
+      },
+      "expected": {
+        "status": "hit"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-004",
+      "kind": "impact_scope",
+      "label": "日期前界之外",
+      "input": {
+        "scope": {
+          "brand": "演示品牌",
+          "models": [
+            "K170"
+          ],
+          "production_scope": "range",
+          "production_start": "2025-01-01",
+          "production_end": "2025-04-30",
+          "date_precision": "day"
+        },
+        "product": {
+          "brand": "演示品牌",
+          "model": "K170"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": "2024-12-31"
+        }
+      },
+      "expected": {
+        "status": "excluded"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-005",
+      "kind": "impact_scope",
+      "label": "日期后界之外",
+      "input": {
+        "scope": {
+          "brand": "演示品牌",
+          "models": [
+            "K170"
+          ],
+          "production_scope": "range",
+          "production_start": "2025-01-01",
+          "production_end": "2025-04-30",
+          "date_precision": "day"
+        },
+        "product": {
+          "brand": "演示品牌",
+          "model": "K170"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": "2025-05-01"
+        }
+      },
+      "expected": {
+        "status": "excluded"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-006",
+      "kind": "impact_scope",
+      "label": "近似型号不可合并",
+      "input": {
+        "scope": {
+          "brand": "演示品牌",
+          "models": [
+            "K170"
+          ],
+          "production_scope": "range",
+          "production_start": "2025-01-01",
+          "production_end": "2025-04-30",
+          "date_precision": "day"
+        },
+        "product": {
+          "brand": "演示品牌",
+          "model": "K170-A"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": "2025-03-01"
+        }
+      },
+      "expected": {
+        "status": "excluded"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-007",
+      "kind": "impact_scope",
+      "label": "不同品牌",
+      "input": {
+        "scope": {
+          "brand": "演示品牌",
+          "models": [
+            "K170"
+          ],
+          "production_scope": "range",
+          "production_start": "2025-01-01",
+          "production_end": "2025-04-30",
+          "date_precision": "day"
+        },
+        "product": {
+          "brand": "其他品牌",
+          "model": "K170"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": "2025-03-01"
+        }
+      },
+      "expected": {
+        "status": "excluded"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-008",
+      "kind": "impact_scope",
+      "label": "型号大小写需核验",
+      "input": {
+        "scope": {
+          "brand": "演示品牌",
+          "models": [
+            "K170"
+          ],
+          "production_scope": "range",
+          "production_start": "2025-01-01",
+          "production_end": "2025-04-30",
+          "date_precision": "day"
+        },
+        "product": {
+          "brand": "演示品牌",
+          "model": "k170"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": "2025-03-01"
+        }
+      },
+      "expected": {
+        "status": "unknown"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-009",
+      "kind": "impact_scope",
+      "label": "无型号范围",
+      "input": {
+        "scope": {
+          "brand": "演示品牌",
+          "models": [],
+          "production_scope": "range",
+          "production_start": "2025-01-01",
+          "production_end": "2025-04-30",
+          "date_precision": "day"
+        },
+        "product": {
+          "brand": "演示品牌",
+          "model": "K170"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": "2025-03-01"
+        }
+      },
+      "expected": {
+        "status": "unknown"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-010",
+      "kind": "impact_scope",
+      "label": "无品牌",
+      "input": {
+        "scope": {
+          "brand": null,
+          "models": [
+            "K170"
+          ],
+          "production_scope": "range",
+          "production_start": "2025-01-01",
+          "production_end": "2025-04-30",
+          "date_precision": "day"
+        },
+        "product": {
+          "brand": "演示品牌",
+          "model": "K170"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": "2025-03-01"
+        }
+      },
+      "expected": {
+        "status": "unknown"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-011",
+      "kind": "impact_scope",
+      "label": "批次无生产日期",
+      "input": {
+        "scope": {
+          "brand": "演示品牌",
+          "models": [
+            "K170"
+          ],
+          "production_scope": "range",
+          "production_start": "2025-01-01",
+          "production_end": "2025-04-30",
+          "date_precision": "day"
+        },
+        "product": {
+          "brand": "演示品牌",
+          "model": "K170"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": null
+        }
+      },
+      "expected": {
+        "status": "unknown"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-012",
+      "kind": "impact_scope",
+      "label": "缺范围起始",
+      "input": {
+        "scope": {
+          "brand": "演示品牌",
+          "models": [
+            "K170"
+          ],
+          "production_scope": "range",
+          "production_start": null,
+          "production_end": "2025-04-30",
+          "date_precision": "day"
+        },
+        "product": {
+          "brand": "演示品牌",
+          "model": "K170"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": "2025-03-01"
+        }
+      },
+      "expected": {
+        "status": "unknown"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-013",
+      "kind": "impact_scope",
+      "label": "倒置日期范围",
+      "input": {
+        "scope": {
+          "brand": "演示品牌",
+          "models": [
+            "K170"
+          ],
+          "production_scope": "range",
+          "production_start": "2025-12-31",
+          "production_end": "2025-04-30",
+          "date_precision": "day"
+        },
+        "product": {
+          "brand": "演示品牌",
+          "model": "K170"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": "2025-03-01"
+        }
+      },
+      "expected": {
+        "status": "unknown"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-014",
+      "kind": "impact_scope",
+      "label": "日期格式不合法",
+      "input": {
+        "scope": {
+          "brand": "演示品牌",
+          "models": [
+            "K170"
+          ],
+          "production_scope": "range",
+          "production_start": "2025-01-01",
+          "production_end": "bad-date",
+          "date_precision": "day"
+        },
+        "product": {
+          "brand": "演示品牌",
+          "model": "K170"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": "2025-03-01"
+        }
+      },
+      "expected": {
+        "status": "unknown"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-015",
+      "kind": "impact_scope",
+      "label": "未知日期精度",
+      "input": {
+        "scope": {
+          "brand": "演示品牌",
+          "models": [
+            "K170"
+          ],
+          "production_scope": "range",
+          "production_start": "2025-01-01",
+          "production_end": "2025-04-30",
+          "date_precision": "unknown"
+        },
+        "product": {
+          "brand": "演示品牌",
+          "model": "K170"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": "2025-03-01"
+        }
+      },
+      "expected": {
+        "status": "unknown"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-016",
+      "kind": "impact_scope",
+      "label": "按批次明确排除",
+      "input": {
+        "scope": {
+          "brand": "演示品牌",
+          "models": [
+            "K170"
+          ],
+          "production_scope": "range",
+          "production_start": "2025-01-01",
+          "production_end": "2025-04-30",
+          "date_precision": "day",
+          "batches": [
+            "B-OTHER"
+          ]
+        },
+        "product": {
+          "brand": "演示品牌",
+          "model": "K170"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": "2025-03-01"
+        }
+      },
+      "expected": {
+        "status": "excluded"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-017",
+      "kind": "impact_scope",
+      "label": "批次已知但序列号未知",
+      "input": {
+        "scope": {
+          "brand": "演示品牌",
+          "models": [
+            "K170"
+          ],
+          "production_scope": "range",
+          "production_start": "2025-01-01",
+          "production_end": "2025-04-30",
+          "date_precision": "day",
+          "serial_filter_status": "requires_interpretation"
+        },
+        "product": {
+          "brand": "演示品牌",
+          "model": "K170"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": "2025-03-01"
+        }
+      },
+      "expected": {
+        "status": "unknown"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-018",
+      "kind": "impact_scope",
+      "label": "月精度末月最后一天",
+      "input": {
+        "scope": {
+          "brand": "演示品牌",
+          "models": [
+            "K170"
+          ],
+          "production_scope": "range",
+          "production_start": "2025-01",
+          "production_end": "2025-04",
+          "date_precision": "month"
+        },
+        "product": {
+          "brand": "演示品牌",
+          "model": "K170"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": "2025-04-30"
+        }
+      },
+      "expected": {
+        "status": "hit"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-019",
+      "kind": "impact_scope",
+      "label": "明确全部生产范围",
+      "input": {
+        "scope": {
+          "brand": "演示品牌",
+          "models": [
+            "K170"
+          ],
+          "production_scope": "all",
+          "production_start": "2025-01-01",
+          "production_end": "2025-04-30",
+          "date_precision": "day"
+        },
+        "product": {
+          "brand": "演示品牌",
+          "model": "K170"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": null
+        }
+      },
+      "expected": {
+        "status": "hit"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-020",
+      "kind": "impact_scope",
+      "label": "已知日期排除优先于缺型号",
+      "input": {
+        "scope": {
+          "brand": "演示品牌",
+          "models": null,
+          "production_scope": "range",
+          "production_start": "2025-01-01",
+          "production_end": "2025-04-30",
+          "date_precision": "day"
+        },
+        "product": {
+          "brand": "演示品牌",
+          "model": "K170"
+        },
+        "batch": {
+          "number": "B-001",
+          "production_date": "2026-01-01"
+        }
+      },
+      "expected": {
+        "status": "excluded"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-021",
+      "kind": "retrieval",
+      "label": "注册证明原文",
+      "input": {
+        "query": "认证委托资料 注册证明",
+        "as_of": "2025-07-01",
+        "limit": 5
+      },
+      "expected": {
+        "rule_id": "cnca-c07-2024",
+        "page": 8
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-022",
+      "kind": "retrieval",
+      "label": "样品一致性原文",
+      "input": {
+        "query": "样品真实性 实际生产产品一致性",
+        "as_of": "2025-07-01",
+        "limit": 5
+      },
+      "expected": {
+        "rule_id": "cnca-c07-2024",
+        "page": 10
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-023",
+      "kind": "retrieval",
+      "label": "液体加热器标准",
+      "input": {
+        "query": "液体加热器 安全标准",
+        "as_of": "2025-07-01",
+        "limit": 5
+      },
+      "expected": {
+        "rule_id": "cnca-c07-2024",
+        "page": 7
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-024",
+      "kind": "retrieval",
+      "label": "新版准入资料",
+      "input": {
+        "query": "模拟平台 检测报告 型号标签",
+        "as_of": "2025-07-01",
+        "limit": 5
+      },
+      "expected": {
+        "rule_id": "demo-qualification-v2"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-025",
+      "kind": "retrieval",
+      "label": "旧版准入边界",
+      "input": {
+        "query": "模拟平台 证书 型号标签",
+        "as_of": "2025-06-30",
+        "limit": 5
+      },
+      "expected": {
+        "rule_id": "demo-qualification-v1",
+        "forbidden_rule_id": "demo-qualification-v2"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-026",
+      "kind": "retrieval",
+      "label": "新版生效边界",
+      "input": {
+        "query": "模拟平台 检测报告 型号标签",
+        "as_of": "2025-07-01",
+        "limit": 5
+      },
+      "expected": {
+        "rule_id": "demo-qualification-v2",
+        "forbidden_rule_id": "demo-qualification-v1"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-027",
+      "kind": "retrieval",
+      "label": "整改证据要求",
+      "input": {
+        "query": "整改措施 新证据 申诉 批次",
+        "as_of": "2025-07-01",
+        "limit": 5
+      },
+      "expected": {
+        "rule_id": "demo-remediation-v1"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-028",
+      "kind": "retrieval",
+      "label": "平台规则未生效",
+      "input": {
+        "query": "模拟平台 证书 型号标签",
+        "as_of": "2024-12-31",
+        "limit": 5
+      },
+      "expected": {
+        "forbidden_rule_ids": [
+          "demo-qualification-v1",
+          "demo-qualification-v2",
+          "demo-remediation-v1"
+        ]
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-029",
+      "kind": "tool_contract",
+      "label": "未知工具",
+      "input": {
+        "name": "run_shell",
+        "branch": "rules",
+        "arguments": {}
+      },
+      "expected": {
+        "status": "denied"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-030",
+      "kind": "tool_contract",
+      "label": "越分支工具",
+      "input": {
+        "name": "search_evidence",
+        "branch": "product",
+        "arguments": {
+          "query": "证书"
+        }
+      },
+      "expected": {
+        "status": "denied"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-031",
+      "kind": "tool_contract",
+      "label": "非法参数",
+      "input": {
+        "name": "search_evidence",
+        "branch": "rules",
+        "arguments": {}
+      },
+      "expected": {
+        "status": "invalid"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-032",
+      "kind": "tool_contract",
+      "label": "无匹配非成功",
+      "input": {
+        "name": "search_evidence",
+        "branch": "rules",
+        "arguments": {
+          "query": "no-match"
+        }
+      },
+      "expected": {
+        "status": "not_found"
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-033",
+      "kind": "context_contract",
+      "label": "长历史保留事实与来源账本",
+      "input": {
+        "mode": "compact",
+        "facts": {
+          "model": "K170",
+          "merchant_id": "merchant-a",
+          "as_of": "2025-07-01",
+          "revision": 7
+        }
+      },
+      "expected": {
+        "facts_retained": true,
+        "budget_rejected": false
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-034",
+      "kind": "context_contract",
+      "label": "历史恶意指令只是数据",
+      "input": {
+        "mode": "memory",
+        "facts": {
+          "model": "K170",
+          "merchant_id": "merchant-a",
+          "as_of": "2025-07-01",
+          "revision": 7
+        }
+      },
+      "expected": {
+        "facts_retained": true,
+        "budget_rejected": false
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-035",
+      "kind": "context_contract",
+      "label": "预算不足明确拒绝",
+      "input": {
+        "mode": "small",
+        "facts": {
+          "model": "K170",
+          "merchant_id": "merchant-a",
+          "as_of": "2025-07-01",
+          "revision": 7
+        }
+      },
+      "expected": {
+        "facts_retained": false,
+        "budget_rejected": true
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-036",
+      "kind": "context_contract",
+      "label": "未配对工具组不发送",
+      "input": {
+        "mode": "orphan",
+        "facts": {
+          "model": "K170",
+          "merchant_id": "merchant-a",
+          "as_of": "2025-07-01",
+          "revision": 7
+        }
+      },
+      "expected": {
+        "facts_retained": true,
+        "budget_rejected": false
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-037",
+      "kind": "graph_path",
+      "label": "供应商到订单",
+      "input": {
+        "merchant_id": "merchant-a",
+        "start_id": "supplier:supplier-a",
+        "as_of": "2025-07-01",
+        "max_hops": 3
+      },
+      "expected": {
+        "order_ids": [
+          "demo-order-hit",
+          "demo-order-date-out"
+        ]
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-038",
+      "kind": "graph_path",
+      "label": "商品到订单",
+      "input": {
+        "merchant_id": "merchant-a",
+        "start_id": "product:sku-hit",
+        "as_of": "2025-07-01",
+        "max_hops": 3
+      },
+      "expected": {
+        "order_ids": [
+          "demo-order-hit"
+        ]
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-039",
+      "kind": "graph_path",
+      "label": "他商家路径不可见",
+      "input": {
+        "merchant_id": "merchant-a",
+        "start_id": "supplier:supplier-b",
+        "as_of": "2025-07-01",
+        "max_hops": 3
+      },
+      "expected": {
+        "order_ids": [],
+        "graph_denied": true
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    },
+    {
+      "id": "draft-040",
+      "kind": "graph_path",
+      "label": "本商家路径",
+      "input": {
+        "merchant_id": "merchant-b",
+        "start_id": "supplier:supplier-b",
+        "as_of": "2025-07-01",
+        "max_hops": 3
+      },
+      "expected": {
+        "order_ids": [
+          "demo-order-other"
+        ]
+      },
+      "human_verified": false,
+      "expected_status": "researcher_draft_pending_review",
+      "is_demo": true
+    }
+  ]
+}

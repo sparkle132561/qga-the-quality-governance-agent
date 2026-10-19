@@ -1,0 +1,165 @@
+{
+  "notice": "脱敏最小回归输入，不是历史质量统计",
+  "runs": [
+    {
+      "case_id": "appliance-model",
+      "repetition": 0,
+      "body": {
+        "proposal": {
+          "brand": "演示家电",
+          "models": [
+            "DEMO-H517E2(货号ITEM517E2b)"
+          ],
+          "field_evidence": {
+            "brand": {
+              "quote": "演示家电"
+            },
+            "models": {
+              "quote": "DEMO-H517E2(货号ITEM517E2b)"
+            }
+          }
+        }
+      }
+    },
+    {
+      "case_id": "power-brand",
+      "repetition": 0,
+      "body": {
+        "proposal": {
+          "brand": "演示电源牌",
+          "models": [
+            "DEMO-30KP365"
+          ],
+          "field_evidence": {
+            "brand": {
+              "quote": "深圳市演示电源科技有限公司召回部分演示电源牌DEMO-30KP365型号移动电源"
+            },
+            "models": {
+              "quote": "深圳市演示电源科技有限公司召回部分演示电源牌DEMO-30KP365型号移动电源"
+            }
+          }
+        }
+      }
+    },
+    {
+      "case_id": "future-agreement",
+      "repetition": 0,
+      "body": {
+        "body": {
+          "entities": [
+            {
+              "key": "supplier",
+              "kind": "supplier",
+              "name": "演示电池公司",
+              "qualifiers": {}
+            },
+            {
+              "key": "customer",
+              "kind": "organization",
+              "name": "Demo Customer Inc.",
+              "qualifiers": {}
+            }
+          ],
+          "relations": [
+            {
+              "subject": "customer",
+              "predicate": "ordered_from",
+              "object": "supplier",
+              "quote": "买方：Demo Customer Inc.。卖方：演示电池公司。双方约定将采购锂离子动力电池。"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "empty-relations",
+      "repetition": 0,
+      "body": {
+        "body": {
+          "entities": [
+            {
+              "key": "dianreshuihu-BM251",
+              "kind": "product",
+              "name": "电热水壶",
+              "qualifiers": {
+                "品牌": "演示壶具",
+                "型号": "BM-251",
+                "生产日期": "2023年02月08日",
+                "数量": "800台"
+              }
+            },
+            {
+              "key": "demo-manufacturer",
+              "kind": "organization",
+              "name": "演示制造商甲公司",
+              "qualifiers": {}
+            }
+          ],
+          "relations": []
+        }
+      }
+    },
+    {
+      "case_id": "battery-supply",
+      "repetition": 1,
+      "body": {
+        "body": {
+          "entities": [
+            {
+              "key": "supplier",
+              "kind": "supplier",
+              "name": "演示电池公司",
+              "qualifiers": {}
+            },
+            {
+              "key": "power_battery",
+              "kind": "product",
+              "name": "动力电池",
+              "qualifiers": {
+                "capacity": "19GWh"
+              }
+            }
+          ],
+          "relations": [
+            {
+              "subject": "supplier",
+              "predicate": "supplies",
+              "object": "power_battery",
+              "quote": "演示电池公司已向演示车辆公司配套19GWh动力电池，并为环卫车提供清洁动力。"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "battery-supply",
+      "repetition": 2,
+      "body": {
+        "body": {
+          "entities": [
+            {
+              "key": "supplier",
+              "kind": "supplier",
+              "name": "演示电池公司",
+              "qualifiers": {}
+            },
+            {
+              "key": "vehicle",
+              "kind": "product",
+              "name": "环卫车",
+              "qualifiers": {}
+            }
+          ],
+          "relations": [
+            {
+              "subject": "supplier",
+              "predicate": "supplies",
+              "object": "vehicle",
+              "quote": "演示电池公司已向演示车辆公司配套19GWh动力电池，并为环卫车提供清洁动力。"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

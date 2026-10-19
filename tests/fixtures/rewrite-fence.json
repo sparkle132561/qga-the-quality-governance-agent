@@ -1,0 +1,4 @@
+{
+  "query": "请核对K170相关订单。",
+  "public_response_content": "```json\n{\"queries\":[\"K170 订单\", \"K170 批次订单\", \"K170 供货记录\"]}\n```"
+}

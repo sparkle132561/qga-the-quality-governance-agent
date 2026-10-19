@@ -1,0 +1,57 @@
+const {chromium}=require('../frontend/node_modules/playwright')
+const assert=require('node:assert/strict')
+const path=require('node:path')
+async function main(){
+ const browser=await chromium.launch({channel:'chrome',headless:true})
+ const page=await browser.newPage({viewport:{width:1280,height:900}})
+ const errors=[];page.on('pageerror',error=>errors.push(error.message))
+ const stamp=Date.now(),oneClick=process.argv.includes('--demo'),site=oneClick?'http://127.0.0.1:5175':'http://127.0.0.1:5173'
+ async function login(name){if(await page.getByRole('button',{name:'退出'}).count())await page.getByRole('button',{name:'退出'}).click();await page.getByRole('button',{name:new RegExp(name)}).click()}
+ async function create(title,workflow){await page.getByRole('link',{name:'案件工作台',exact:true}).click();await page.getByRole('button',{name:/新建案件/}).click();await page.getByLabel('案件标题').fill(title);await page.getByLabel('业务流程').selectOption(workflow);if(workflow==='qualification')await page.getByLabel('准入商品').selectOption('sku-hit');else await page.getByLabel('已确认质量事件').selectOption('demo-recall-001');await page.getByRole('button',{name:'保存草稿'}).click();await page.getByRole('row').filter({hasText:title}).getByRole('link').click();await page.getByRole('heading',{name:title,exact:true}).waitFor()}
+ async function upload(name,text){await page.getByLabel('上传资料（单文件不超过12MB）').setInputFiles({name,mimeType:'text/html',buffer:Buffer.from('<p>'+text+'</p>')});await page.getByRole('button',{name:'上传并解析'}).click();await page.getByText(name,{exact:true}).waitFor()}
+ async function approveAndExecute(){await page.getByLabel('审核决定说明').fill('显式Fake三流程协议检查，仅本地模拟');await page.getByRole('button',{name:'批准此版本'}).click();const pending=page.waitForResponse(response=>response.url().endsWith('/execute'));await page.getByRole('button',{name:'执行已批准模拟处置'}).click();const result=await pending;assert.equal(result.status(),200,await result.text());return await result.json()}
+ try{
+  if(!oneClick)await page.route('**/api/**',async route=>{const response=await route.fetch({url:route.request().url().replace('127.0.0.1:5173','127.0.0.1:8002')});await route.fulfill({response})})
+  await page.goto(site+'/')
+  await login('管理员');if(oneClick)await page.getByText(/协议演示：模型回应固定为 Fake/).waitFor();await page.getByRole('link',{name:'规则与来源'}).click();const imported=page.waitForResponse(response=>response.url().endsWith('/admin/import-demo'));await page.getByRole('button',{name:'导入演示目录'}).click();assert.equal((await imported).status(),200)
+  await login('商家甲');await create('三流程准入-'+stamp,'qualification')
+  const qualificationUrl=page.url()
+  await upload('certificate.html','DEMO CERTIFICATE MODEL: K170 CERTIFICATE NO: DEMO-CCC-K170 POWER: 1800W')
+  await upload('label.html','DEMO LABEL MODEL: K170 POWER: 1800W')
+  await upload('report.html','DEMO TEST REPORT MODEL: K170 POWER: 1800W')
+  await page.getByRole('button',{name:'提交案件'}).click()
+  await login('平台审核员');await page.goto(qualificationUrl);await page.getByRole('button',{name:'运行准入取证'}).click();await page.getByRole('button',{name:'批准此版本'}).waitFor()
+  assert.deepEqual((await approveAndExecute()).effects.map(effect=>effect.kind),['simulate_listing'])
+  const memoryPanel=page.getByRole('heading',{name:'已核验历史参考'}).locator('..').locator('..')
+  await memoryPanel.getByText('从已批准来源提出记忆候选',{exact:true}).click()
+  await memoryPanel.getByLabel(/^适用商品/).selectOption('sku-hit');await memoryPanel.getByLabel(/^批准来源/).selectOption('product:sku-hit')
+  await memoryPanel.getByLabel('精确原文摘录').fill('"model": "K170"');await memoryPanel.getByLabel('摘录适用说明').fill(('模拟核验型号，当前资料优先-'+stamp))
+  await memoryPanel.getByRole('button',{name:'保存记忆候选'}).click();await memoryPanel.getByText('已保存候选，审核员核验后才能用于后续取证。',{exact:true}).waitFor()
+  await page.getByRole('link',{name:'记忆与核验',exact:true}).click()
+  let card=page.locator('article.panel').filter({hasText:('模拟核验型号，当前资料优先-'+stamp)})
+  await card.getByRole('button',{name:'管理此记忆版本'}).click();await card.getByLabel('核验／纠正／删除说明').fill(('核对原文，确认此历史参考-'+stamp))
+  await card.getByRole('button',{name:'核验此候选'}).click();await page.getByText('已核验 · v2',{exact:true}).waitFor()
+  card=page.locator('article.panel').filter({hasText:('核对原文，确认此历史参考-'+stamp)})
+  await card.getByRole('button',{name:'管理此记忆版本'}).click();await card.getByLabel('核验／纠正／删除说明').fill(('同来源纠正说明后重新核验-'+stamp))
+  await card.getByRole('button',{name:'纠正来源与摘录'}).click();await card.getByRole('button',{name:'保存纠正并重新核验'}).click();await page.getByText('待核验 · v3',{exact:true}).waitFor()
+  card=page.locator('article.panel').filter({hasText:('同来源纠正说明后重新核验-'+stamp)})
+  await card.getByRole('button',{name:'管理此记忆版本'}).click();await card.getByLabel('核验／纠正／删除说明').fill(('再次核验后的模拟历史参考-'+stamp))
+  await card.getByRole('button',{name:'核验此候选'}).click();card=page.locator('article.panel').filter({hasText:('再次核验后的模拟历史参考-'+stamp)});await card.getByText('已核验 · v4',{exact:true}).waitFor()
+  await card.screenshot({path:path.resolve(__dirname,oneClick?'../data/runtime/ui-smoke/unit-15-demo-memory.png':'../data/runtime/ui-smoke/unit-13-memory.png')})
+  await create('三流程影响-'+stamp,'incident');await page.getByRole('button',{name:'提交案件'}).click();await page.getByRole('button',{name:'运行影响分析'}).click();await page.getByRole('button',{name:'批准此版本'}).waitFor()
+  await page.getByRole('heading',{name:'已核验历史参考'}).locator('..').locator('..').getByText('"model": "K170"',{exact:true}).first().waitFor()
+  const impact=await approveAndExecute();assert.equal(impact.effects.length,3);assert.equal(impact.effects.find(effect=>effect.kind==='simulate_delist').target_id,'sku-hit')
+  const orderId=impact.effects.find(effect=>effect.kind==='create_work_order').target_id
+  await login('商家甲');await page.getByRole('link',{name:'整改与申诉工单'}).click();card=page.locator('article.panel').filter({hasText:orderId})
+  await card.getByRole('button',{name:'提交整改或申诉'}).click();await page.getByLabel('证据适用日期').fill('2025-07-01');await page.getByLabel('整改说明或申诉理由').fill('协议演示的新整改资料，需人工核验')
+  await page.getByRole('button',{name:'创建复核草稿'}).click();await page.waitForURL(/\/cases\/[0-9a-f-]+$/);const remediationUrl=page.url();await upload('remediation.html','DEMO REMEDIATION evidence MODEL: K170 POWER: 1800W');await page.getByRole('button',{name:'提交案件'}).click()
+  await login('平台审核员');await page.goto(remediationUrl);await page.getByRole('button',{name:'运行整改／申诉复核'}).click();await page.getByRole('button',{name:'批准此版本'}).waitFor();assert.deepEqual((await approveAndExecute()).effects.map(effect=>effect.kind),['close_work_order'])
+  await page.getByRole('link',{name:'整改与申诉工单'}).click();await page.locator('article.panel').filter({hasText:orderId}).getByRole('heading',{name:'已关闭'}).waitFor()
+  await login('商家乙');const bRead=page.waitForResponse(r=>r.url().includes('/api/memories?'));await page.getByRole('link',{name:'记忆与核验',exact:true}).click();assert.equal((await bRead).status(),200);await page.getByText('本页暂无可见记忆。',{exact:true}).waitFor();assert.equal(await page.locator('article.panel').count(),0)
+  await login('管理员');const adminRead=page.waitForResponse(r=>r.url().includes('/api/memories?'));await page.getByRole('link',{name:'记忆与核验',exact:true}).click();assert.equal((await adminRead).status(),200);await page.locator('article.panel').first().waitFor();assert.equal(await page.getByRole('button',{name:'管理此记忆版本'}).count(),0)
+  await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),true)
+  assert.deepEqual(errors,[])
+  console.log('PASS three UI workflows / listing→delist→closure / memory candidate-confirm-correct / B isolation / admin read-only / 390px; explicit Fake')
+ }finally{await page.unrouteAll({behavior:'wait'});await browser.close()}
+}
+main().catch(error=>{console.error(error);process.exitCode=1})

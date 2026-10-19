@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "is_demo": true,
+  "source_policy": "以下业务字段与事件全部自建模拟，不代表真实企业或监管结论。官方公告另存来源。",
+  "merchants": [{"id":"merchant-a","name":"演示商家甲"},{"id":"merchant-b","name":"演示商家乙"}],
+  "products": [
+    {"id":"sku-hit","merchant_id":"merchant-a","brand":"演示品牌","model":"K170","batch":"20250301","production_date":"2025-03-01"},
+    {"id":"sku-date-out","merchant_id":"merchant-a","brand":"演示品牌","model":"K170","batch":"20250601","production_date":"2025-06-01"},
+    {"id":"sku-near-model","merchant_id":"merchant-a","brand":"演示品牌","model":"K170S","batch":"20250301","production_date":"2025-03-01"},
+    {"id":"sku-other-owner","merchant_id":"merchant-b","brand":"演示品牌","model":"K170","batch":"20250301","production_date":"2025-03-01"}
+  ],
+  "incident": {"id":"demo-recall-001","event_type":"recall","is_demo":true,"brand":"演示品牌","models":["K170"],"production_start":"2025-01-01","production_end":"2025-04-30","defect":"模拟把手松脱问题"},
+  "cases": [
+    {"id":"gold-001","workflow":"qualification","input":{"missing_documents":["test_report"]},"expected":{"recommendation":"needs_info","missing_fields":["test_report"]}},
+    {"id":"gold-002","workflow":"incident","input":{"merchant_id":"merchant-a","incident_id":"demo-recall-001"},"expected":{"affected_product_ids":["sku-hit"],"excluded_product_ids":["sku-date-out","sku-near-model"]}},
+    {"id":"gold-003","workflow":"incident","input":{"merchant_id":"merchant-a","model":null},"expected":{"recommendation":"needs_info","missing_fields":["model"]}},
+    {"id":"gold-004","workflow":"remediation","input":{"approval":false},"expected":{"disposition_count":0}}
+  ]
+}

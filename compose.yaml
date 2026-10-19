@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: quality
+      POSTGRES_PASSWORD: quality_demo
+      POSTGRES_DB: quality
+    ports:
+      - "127.0.0.1:${QUALITY_POSTGRES_PORT:-55432}:5432"
+    volumes:
+      - quality_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U quality -d quality"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+volumes:
+  quality_pgdata:
