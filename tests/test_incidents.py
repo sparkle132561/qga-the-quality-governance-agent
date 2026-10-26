@@ -167,7 +167,11 @@ def test_fenced_incident_does_not_accept_fabricated_field_evidence(client, monke
     response = client.post(f"/api/incidents/drafts/{row['id']}/extract",
                            headers=headers(client, "reviewer"),
                            json={"expected_revision": row["revision"]})
-    assert response.status_code == 422
+    assert response.status_code == 200
+    assert response.json()["status"] == "needs_info"
+    assert response.json()["proposal"]["brand"] is None
+    assert response.json()["proposal"]["models"] == ["K170"]
+    assert response.json()["field_review"]["fields"]["brand"]["status"] == "invalid"
     with client.app.state.sessions() as session:
         assert session.get(IncidentDraft, row["id"]).event_id is None
 

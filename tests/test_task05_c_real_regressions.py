@@ -530,5 +530,8 @@ def test_null_line_evidence_for_filled_field_still_requires_quote():
         },
         ensure_ascii=False,
     )
-    with pytest.raises(Exception):
-        parse_incident(content, text)
+    result = parse_incident(content, text)
+    assert result["brand"] == "某公司"
+    assert result["production_start"] is None
+    assert result["_field_review"]["fields"]["production_start"]["status"] == "invalid"
+    assert result["scope_review_required"] is True
